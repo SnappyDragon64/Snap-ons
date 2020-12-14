@@ -53,9 +53,9 @@ class Monitor(Cog):
             if self.channels is None:
                 self.load_channels()
             
-            channel_dict = self.channels
-            channel_dict[ctx.message.guild.id] = channel.id
-            self.channels = channel_dict
+            channels_dict = self.channels
+            channels_dict[ctx.message.guild.id] = channel.id
+            self.channels = channels_dict
         
             self.dump_channels()
         
@@ -181,9 +181,12 @@ class Monitor(Cog):
             if self.channels is None:
                 self.load_channels()
             
-            channel_dict = self.channels
-            if channel_dict[message.guild.id] is not None:
-                em = discord.Embed(title="Message sent", description=message, color=discord.Color.blue()
-                #em.set_author(name=author, icon_url=message.author.avatar_url)
-                await ctx.send_message(message.guild.get_channel(channel_dict[message.guild.id]), embed=em)
+            channels_dict = self.channels
+            try:
+                null_list = channels_dict[message.guild.id]
+            except:
+                channels_dict[message.guild.id] = None
+            em = discord.Embed(title="Message sent", description=message, color=discord.Color.blue())
+            #em.set_author(name=author, icon_url=message.author.avatar_url)
+            await ctx.send_message(message.guild.get_channel(channels_dict[message.guild.id]), embed=em)
                 
