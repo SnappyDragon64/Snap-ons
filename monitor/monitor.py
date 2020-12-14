@@ -103,5 +103,40 @@ class Monitor(Cog):
             desc = "Please mention a user to monitor."
             em = discord.Embed(title=ti, description=desc, color=discord.Color.red())
             await ctx.send(embed=em)
+            
+    @monitor.command()
+    async def add(self, ctx: commands.Context, user: discord.User = None):
+        """Remove user from watchlist."""
+        if user is not None:
+            if self.users is None:
+                self.load_users()
+            
+            users_dict = self.users
+            try:
+                null_list = users_dict[ctx.message.guild.id]
+            except:
+                users_dict[ctx.message.guild.id] = []
+            list = users_dict[ctx.message.guild.id]
+            
+            if list.count(user.id) == 0:
+                ti = "User is not being monitored."
+                desc = "Please mention another user to remove."
+                em = discord.Embed(title=ti, description=desc, color=discord.Color.green())
+                await ctx.send(embed=em)
+            else:
+                list.remove(user.id)
+                users_dict[ctx.message.guild.id] = list
+                self.users = users_dict
+                self.dump_users()
+        
+                ti = "User successfully removed."
+                desc = "{} will no longer be monitored.".format(user.name)
+                em = discord.Embed(title=ti, description=desc, color=discord.Color.green())
+                await ctx.send(embed=em)
+        else:
+            ti = "No user entered."
+            desc = "Please mention a user to remove."
+            em = discord.Embed(title=ti, description=desc, color=discord.Color.red())
+            await ctx.send(embed=em)
         
     
