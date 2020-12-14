@@ -154,7 +154,7 @@ class Monitor(Cog):
         if list.len() < 1:
             ti = "Watchlist is empty."
         else:
-            ti = "Watchlist for {}.".format(ctx.message.guild.name}
+            ti = "Watchlist for {}.".format(ctx.message.guild.name)
         desc = ""
         
         for userid in list:
