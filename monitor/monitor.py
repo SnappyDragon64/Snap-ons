@@ -159,7 +159,7 @@ class Monitor(Cog):
         
         for userid in list:
             username = discord.Client.get_user_info(userid).name
-            desc += "\n**{}**".format(username) #
+            desc += "\n**{}**".format(username)
         
         em = discord.Embed(title=ti, description=desc, color=discord.Color.blue())
         await ctx.send(embed=em)
