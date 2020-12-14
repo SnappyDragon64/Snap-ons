@@ -66,5 +66,38 @@ class Monitor(Cog):
             desc = "Please mention a channel to send log data to."
             em = discord.Embed(title=ti, description=desc, color=discord.Color.red())
             await ctx.send(embed=em)
+            
+    @monitor.command()
+    async def add(self, ctx: commands.Context, user: discord.User = None):
+        """Enter channel to log data to."""
+        if user is not None:
+            if self.users is None:
+                self.load_files()
+            
+            users_dict = self.users
+            if users_dict[ctx.message.guild.id] is none:
+                users_dict[ctx.message.guild.id] = []
+            list = users_dict[ctx.message.guild.id]
+            
+            if list.count(user.id) > 0:
+                ti = "User already being monitored."
+                desc = "Please mention another user to monitor."
+                em = discord.Embed(title=ti, description=desc, color=discord.Color.green())
+                await ctx.send(embed=em)
+            else
+                list.append(user.id)
+                users_dict[ctx.message.guild.id] = list
+                self.users = users_dict
+                self.dump_files()
+        
+                ti = "User successfully set."
+                desc = "{} will now be monitored.".format(user.name)
+                em = discord.Embed(title=ti, description=desc, color=discord.Color.green())
+                await ctx.send(embed=em)
+        else:
+            ti = "No user entered."
+            desc = "Please mention a user to monitor."
+            em = discord.Embed(title=ti, description=desc, color=discord.Color.red())
+            await ctx.send(embed=em)
         
     
