@@ -95,7 +95,7 @@ class Monitor(Cog):
                 self.dump_users()
         
                 ti = "User successfully set."
-                desc = "{} will now be monitored.".format(user.name)
+                desc = "**{}** will now be monitored.".format(user.name)
                 em = discord.Embed(title=ti, description=desc, color=discord.Color.green())
                 await ctx.send(embed=em)
         else:
@@ -130,7 +130,7 @@ class Monitor(Cog):
                 self.dump_users()
         
                 ti = "User successfully removed."
-                desc = "{} will no longer be monitored.".format(user.name)
+                desc = "**{}** will no longer be monitored.".format(user.name)
                 em = discord.Embed(title=ti, description=desc, color=discord.Color.green())
                 await ctx.send(embed=em)
         else:
@@ -163,3 +163,29 @@ class Monitor(Cog):
         
         em = discord.Embed(title=ti, description=desc, color=discord.Color.blue())
         await ctx.send(embed=em)
+        
+    @commands.Cog.listener()
+    async def on_message(self, message):
+        if self.users is None:
+            self.load_users()
+        
+        users_dict = self.users
+        
+        try:
+            null_list = users_dict[message.guild.id]
+        except:
+            users_dict[message.guild.id] = []
+        list = users_dict[message.guild.id]
+        
+        if list.count(message.author.id) > 0:
+            if self.channels is None:
+                self.load_channels()
+            
+            channel_dict = self.channels
+            if channel_dict[message.guild.id] is not None:
+                channel_id = channel_dict[message.guild.id]
+                em = discord.Embed(title=Message sent, description=message, color=discord.Color.blue()
+                avatar = message.author.avatar_url if message.author.avatar else message.author.default_avatar_url
+                em.set_author(name='**{}**'.format(author), icon_url=avatar))
+                await self.bot.send_message(channel, embed=em)
+                
