@@ -59,7 +59,7 @@ class Monitor(Cog):
             desc = "Log data will now be sent to #{}.".format(channel.name)
             em = discord.Embed(title=ti, description=desc, color=discord.Color.green())
             await ctx.send(embed=em)
-        else
+        else:
             ti = "No channel entered."
             desc = "Please mention a channel to send log data to."
             em = discord.Embed(title=ti, description=desc, color=discord.Color.red())
