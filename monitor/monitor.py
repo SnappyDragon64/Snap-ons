@@ -139,4 +139,27 @@ class Monitor(Cog):
             em = discord.Embed(title=ti, description=desc, color=discord.Color.red())
             await ctx.send(embed=em)
         
-    
+@monitor.command()
+    async def watchlist(self, ctx: commands.Context):
+        """Check the watchlist. WARNING: Updating this cog will reset the watchlist."""
+        if self.users is None:
+            self.load_users()
+        
+        users_dict = self.users
+        try:
+            null_list = users_dict[ctx.message.guild.id]
+        except:
+            users_dict[ctx.message.guild.id] = []
+        list = users_dict[ctx.message.guild.id]
+        if list.len() < 1:
+            ti = "Watchlist is empty."
+        else
+            ti = "Watchlist for {}.".format(ctx.message.guild.name}
+        desc = ""
+        
+        for userid in list:
+            username = discord.Client.get_user_info(userid).name
+            desc += "\n**{}**".format(username)
+        
+        em = discord.Embed(title=ti, description=desc, color=discord.Color.blue())
+            await ctx.send(embed=em)
