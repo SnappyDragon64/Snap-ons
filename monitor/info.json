@@ -1,0 +1,16 @@
+{
+  "author": [
+    "SnappyDragon"
+  ],
+  "min_bot_version": "3.3.0",
+  "description": "Monitor users.",
+  "hidden": false,
+  "install_msg": "Monitors users.",
+  "requirements": [],
+  "short": "Monitors users.",
+  "end_user_data_statement": "This cog stores user IDs to monitor them.",
+  "tags": [
+    "utility",
+    "tools"
+  ]
+}
