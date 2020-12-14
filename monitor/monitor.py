@@ -4,7 +4,7 @@ from redbot.core import commands
 from redbot.core.commands import Cog
 
 
-class Unicode(Cog):
+class Monitor(Cog):
     """Monitor users."""
 
     def __init__(self, bot):
