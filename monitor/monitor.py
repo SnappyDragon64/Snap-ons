@@ -43,14 +43,26 @@ class Monitor(Cog):
             pass
 
     @monitor.command()
-    async def set(self, ctx: commands.Context, channel):
+    async def set(self, ctx: commands.Context, channel: discord.TextChannel = None):
         """Enter channel to log data to."""
-        channel_dict = self.channels
-        channel_dict[ctx.message.guild.id] = channel.id
-        self.channels = channel_dict
+        if channel is not None:
+            if self.junk is None:
+                self.load_junk()
+            
+            channel_dict = self.channels
+            channel_dict[ctx.message.guild.id] = channel.id
+            self.channels = channel_dict
         
-        ti = "Channel successfully set."
-        desc = "Log data will now be sent to #{}.".format(channel.name)
-        em = discord.Embed(title=ti, description=desc, color=color)
-        await ctx.send(embed=em)
+            self.dump_files()
+        
+            ti = "Channel successfully set."
+            desc = "Log data will now be sent to #{}.".format(channel.name)
+            em = discord.Embed(title=ti, description=desc, color=discord.Color.green())
+            await ctx.send(embed=em)
+        else
+            ti = "No channel entered."
+            desc = "Please mention a channel to send log data to."
+            em = discord.Embed(title=ti, description=desc, color=discord.Color.red())
+            await ctx.send(embed=em)
+        
     
