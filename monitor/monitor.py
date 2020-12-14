@@ -246,7 +246,7 @@ class Monitor(Cog):
                 channels_dict[before.guild.id] = None
             
             if channels_dict[before.guild.id] is not None:
-                em = discord.Embed(title="Message deleted", color=discord.Color.red())
+                em = discord.Embed(title="Message deleted", color=discord.Color.blue())
                 em.set_author(name=before.author, icon_url=before.author.avatar_url)
                 em.add_field(name="**Before**", value=before.content)
                 em.add_field(name="**After**", value=after.content)
