@@ -162,7 +162,7 @@ class Monitor(Cog):
         desc = ""
         
         for userid in list:
-            username = discord.Client.get_user_info(userid).name
+            username = ctx.message.guild.get_member(userid).name
             desc += "\n**{}**".format(username)
         
         em = discord.Embed(title=ti, description=desc, color=discord.Color.blue())
