@@ -21,11 +21,11 @@ class Monitor(Cog):
         
     def load_files(self):
         channels_path = bundled_data_path(self) / "channels.json"
-        with channels_path.open() as json_data:
+        with open(channels_path, 'w') as json_data:
             self.channels = json.load(json_data)
             
         users_path = bundled_data_path(self) / "users.json"
-        with users_path.open() as json_data:
+        with open(users_path, 'w') as json_data:
             self.users = json.load(json_data)
             
     def dump_files(self):
