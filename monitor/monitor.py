@@ -71,7 +71,7 @@ class Monitor(Cog):
             
     @monitor.command()
     async def add(self, ctx: commands.Context, user: discord.User = None):
-        """Add user to watchlist."""
+        """Add a user to the watchlist."""
         if user is not None:
             if self.users is None:
                 self.load_users()
@@ -106,7 +106,7 @@ class Monitor(Cog):
             
     @monitor.command()
     async def remove(self, ctx: commands.Context, user: discord.User = None):
-        """Remove user from watchlist."""
+        """Remove a user from the watchlist."""
         if user is not None:
             if self.users is None:
                 self.load_users()
