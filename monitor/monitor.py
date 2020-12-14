@@ -1,6 +1,6 @@
 import discord
 import json
-from redbot.core import commands
+from redbot.core import commands, checks
 from redbot.core.commands import Cog
 from redbot.core.data_manager import bundled_data_path
 
@@ -38,6 +38,7 @@ class Monitor(Cog):
             json.dump(self.users, json_data)
             
     @commands.group(name="monitor", pass_context=True)
+    @checks.mod_or_permissions(administrator=True)
     async def monitor(self, ctx):
         """Monitor users."""
         if ctx.invoked_subcommand is None:
