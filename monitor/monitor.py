@@ -78,8 +78,7 @@ class Monitor(Cog):
             
             users_dict = self.users
             try:
-                if users_dict[ctx.message.guild.id] is None:
-                    users_dict[ctx.message.guild.id] = []
+                null_list = users_dict[ctx.message.guild.id]
             except:
                 users_dict[ctx.message.guild.id] = []
             list = users_dict[ctx.message.guild.id]
