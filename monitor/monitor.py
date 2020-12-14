@@ -46,8 +46,8 @@ class Monitor(Cog):
     async def set(self, ctx: commands.Context, channel: discord.TextChannel = None):
         """Enter channel to log data to."""
         if channel is not None:
-            if self.junk is None:
-                self.load_junk()
+            if self.channels is None:
+                self.load_files()
             
             channel_dict = self.channels
             channel_dict[ctx.message.guild.id] = channel.id
