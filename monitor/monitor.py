@@ -84,7 +84,7 @@ class Monitor(Cog):
                 desc = "Please mention another user to monitor."
                 em = discord.Embed(title=ti, description=desc, color=discord.Color.green())
                 await ctx.send(embed=em)
-            else
+            else:
                 list.append(user.id)
                 users_dict[ctx.message.guild.id] = list
                 self.users = users_dict
