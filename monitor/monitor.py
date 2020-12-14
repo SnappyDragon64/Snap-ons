@@ -190,7 +190,7 @@ class Monitor(Cog):
             if channels_dict[message.guild.id] is not None:
                 em = discord.Embed(title="Message sent", description=message.content, color=discord.Color.green())
                 em.set_author(name=message.author, icon_url=message.author.avatar_url)
-                em.set_footer(text="Message sent by user with ID {0} in #{1} at time {2}".format(message.author.id, message.channel, message.created_at))
+                em.set_footer(text="Original message sent by user with ID {0} in #{1} at time {2}.".format(message.author.id, message.channel, message.created_at))
                 await message.guild.get_channel(channels_dict[message.guild.id]).send(embed=em)
                 
     @commands.Cog.listener()
@@ -219,5 +219,5 @@ class Monitor(Cog):
             if channels_dict[message.guild.id] is not None:
                 em = discord.Embed(title="Message deleted", description=message.content, color=discord.Color.red())
                 em.set_author(name=message.author, icon_url=message.author.avatar_url)
-                em.set_footer(text="Message sent by user with ID {0} in #{1} at time {2}".format(message.author.id, message.channel, message.created_at))
+                em.set_footer(text="Original message sent by user with ID {0} in #{1} at time {2}.".format(message.author.id, message.channel, message.created_at))
                 await message.guild.get_channel(channels_dict[message.guild.id]).send(embed=em)
