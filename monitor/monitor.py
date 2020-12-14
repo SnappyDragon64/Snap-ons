@@ -139,7 +139,7 @@ class Monitor(Cog):
             em = discord.Embed(title=ti, description=desc, color=discord.Color.red())
             await ctx.send(embed=em)
         
-@monitor.command()
+    @monitor.command()
     async def watchlist(self, ctx: commands.Context):
         """Check the watchlist. WARNING: Updating this cog will reset the watchlist."""
         if self.users is None:
