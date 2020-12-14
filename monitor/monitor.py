@@ -19,20 +19,22 @@ class Monitor(Cog):
         """Nothing to delete"""
         return
         
-    def load_files(self):
+    def load_channels(self):
         channels_path = bundled_data_path(self) / "channels.json"
         with channels_path.open() as json_data:
             self.channels = json.load(json_data)
             
-        users_path = bundled_data_path(self) / "users.json"
-        with users_path.open() as json_data:
-            self.users = json.load(json_data)
-            
-    def dump_files(self):
+    def dump_channels(self):
         channels_path = bundled_data_path(self) / "channels.json"
         with open(channels_path, 'w') as json_data:
             json.dump(self.channels, json_data)
             
+    def load_users(self):
+        users_path = bundled_data_path(self) / "users.json"
+        with users_path.open() as json_data:
+            self.users = json.load(json_data)
+            
+    def dump_users(self):
         users_path = bundled_data_path(self) / "users.json"
         with open(users_path, 'w') as json_data:
             json.dump(self.users, json_data)
@@ -49,13 +51,13 @@ class Monitor(Cog):
         """Enter channel to log data to."""
         if channel is not None:
             if self.channels is None:
-                self.load_files()
+                self.load_channels()
             
             channel_dict = self.channels
             channel_dict[ctx.message.guild.id] = channel.id
             self.channels = channel_dict
         
-            self.dump_files()
+            self.dump_channels()
         
             ti = "Channel successfully set."
             desc = "Log data will now be sent to #{}.".format(channel.name)
@@ -72,7 +74,7 @@ class Monitor(Cog):
         """Add user to watchlist."""
         if user is not None:
             if self.users is None:
-                self.load_files()
+                self.load_users()
             
             users_dict = self.users
             if users_dict[ctx.message.guild.id] is None:
@@ -88,7 +90,7 @@ class Monitor(Cog):
                 list.append(user.id)
                 users_dict[ctx.message.guild.id] = list
                 self.users = users_dict
-                self.dump_files()
+                self.dump_users()
         
                 ti = "User successfully set."
                 desc = "{} will now be monitored.".format(user.name)
