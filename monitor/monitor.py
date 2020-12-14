@@ -190,4 +190,4 @@ class Monitor(Cog):
             if channels_dict[message.guild.id] is not None:
                 em = discord.Embed(title="Message sent", description=message, color=discord.Color.blue())
                 em.set_author(name=message.author, icon_url=message.author.avatar_url)
-                await message.guild.get_channel(channels_dict[message.guild.id]).send(embed=em)
+                message.guild.get_channel(channels_dict[message.guild.id]).send(embed=em)
