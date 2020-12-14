@@ -69,13 +69,13 @@ class Monitor(Cog):
             
     @monitor.command()
     async def add(self, ctx: commands.Context, user: discord.User = None):
-        """Enter channel to log data to."""
+        """Add user to watchlist."""
         if user is not None:
             if self.users is None:
                 self.load_files()
             
             users_dict = self.users
-            if users_dict[ctx.message.guild.id] is none:
+            if users_dict[ctx.message.guild.id] is None:
                 users_dict[ctx.message.guild.id] = []
             list = users_dict[ctx.message.guild.id]
             
