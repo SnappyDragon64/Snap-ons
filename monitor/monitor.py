@@ -188,6 +188,34 @@ class Monitor(Cog):
                 channels_dict[message.guild.id] = None
             
             if channels_dict[message.guild.id] is not None:
-                em = discord.Embed(title="Message sent", description=message.content, color=discord.Color.blue())
+                em = discord.Embed(title="Message sent", description=message.content, color=discord.Color.green())
+                em.set_author(name=message.author, icon_url=message.author.avatar_url)
+                await message.guild.get_channel(channels_dict[message.guild.id]).send(embed=em)
+                
+    @commands.Cog.listener()
+    async def on_message_delete(self, message):
+        if self.users is None:
+            self.load_users()
+        
+        users_dict = self.users
+        
+        try:
+            null_list = users_dict[message.guild.id]
+        except:
+            users_dict[message.guild.id] = []
+        list = users_dict[message.guild.id]
+        
+        if list.count(message.author.id) > 0:
+            if self.channels is None:
+                self.load_channels()
+            
+            channels_dict = self.channels
+            try:
+                null_list = channels_dict[message.guild.id]
+            except:
+                channels_dict[message.guild.id] = None
+            
+            if channels_dict[message.guild.id] is not None:
+                em = discord.Embed(title="Message delete", description=message.content, color=discord.Color.red())
                 em.set_author(name=message.author, icon_url=message.author.avatar_url)
                 await message.guild.get_channel(channels_dict[message.guild.id]).send(embed=em)
