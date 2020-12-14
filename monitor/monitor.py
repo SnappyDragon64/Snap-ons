@@ -105,7 +105,7 @@ class Monitor(Cog):
             await ctx.send(embed=em)
             
     @monitor.command()
-    async def add(self, ctx: commands.Context, user: discord.User = None):
+    async def remove(self, ctx: commands.Context, user: discord.User = None):
         """Remove user from watchlist."""
         if user is not None:
             if self.users is None:
