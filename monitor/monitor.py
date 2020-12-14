@@ -151,9 +151,13 @@ class Monitor(Cog):
         except:
             users_dict[ctx.message.guild.id] = []
         list = users_dict[ctx.message.guild.id]
-        if list.len() < 1:
+        flag = True
+        try:
+            length = list.len()
+        except:
             ti = "Watchlist is empty."
-        else:
+            flag = False
+        if flag:
             ti = "Watchlist for {}.".format(ctx.message.guild.name)
         desc = ""
         
