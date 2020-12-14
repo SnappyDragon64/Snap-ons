@@ -153,7 +153,7 @@ class Monitor(Cog):
         list = users_dict[ctx.message.guild.id]
         if list.len() < 1:
             ti = "Watchlist is empty."
-        else
+        else:
             ti = "Watchlist for {}.".format(ctx.message.guild.name}
         desc = ""
         
@@ -162,4 +162,4 @@ class Monitor(Cog):
             desc += "\n**{}**".format(username)
         
         em = discord.Embed(title=ti, description=desc, color=discord.Color.blue())
-            await ctx.send(embed=em)
+        await ctx.send(embed=em)
