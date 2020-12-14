@@ -221,3 +221,34 @@ class Monitor(Cog):
                 em.set_author(name=message.author, icon_url=message.author.avatar_url)
                 em.set_footer(text="Original message sent by user with ID {0} in #{1} at time {2}.".format(message.author.id, message.channel, message.created_at))
                 await message.guild.get_channel(channels_dict[message.guild.id]).send(embed=em)
+                
+    @commands.Cog.listener()
+    async def on_message_edit(self, before, after):
+        if self.users is None:
+            self.load_users()
+        
+        users_dict = self.users
+        
+        try:
+            null_list = users_dict[before.guild.id]
+        except:
+            users_dict[before.guild.id] = []
+        list = users_dict[before.guild.id]
+        
+        if list.count(before.author.id) > 0:
+            if self.channels is None:
+                self.load_channels()
+            
+            channels_dict = self.channels
+            try:
+                null_list = channels_dict[before.guild.id]
+            except:
+                channels_dict[before.guild.id] = None
+            
+            if channels_dict[before.guild.id] is not None:
+                em = discord.Embed(title="Message deleted", color=discord.Color.red())
+                em.set_author(name=before.author, icon_url=before.author.avatar_url)
+                em.add_field(name="**Before**", value=before.content)
+                em.add_field(name="**After**", value=after.content)
+                em.set_footer(text="Original message sent by user with ID {0} in #{1} at time {2}.".format(before.author.id, before.channel, before.created_at))
+                await before.guild.get_channel(channels_dict[before.guild.id]).send(embed=em)
