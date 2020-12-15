@@ -95,7 +95,7 @@ class Monitor(Cog):
         if user is not None:
             if self.users is None:
                 self.load_users()
-            f self.channels is None:
+            if self.channels is None:
                 self.load_channels()
                 
             users_dict = self.users
