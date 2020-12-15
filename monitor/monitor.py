@@ -95,7 +95,9 @@ class Monitor(Cog):
         if user is not None:
             if self.users is None:
                 self.load_users()
-            
+            f self.channels is None:
+                self.load_channels()
+                
             users_dict = self.users
             try:
                 null_list = users_dict[ctx.message.guild.id]
@@ -109,6 +111,12 @@ class Monitor(Cog):
                 em = discord.Embed(title=ti, description=desc, color=discord.Color.green())
                 await ctx.send(embed=em)
             else:
+                channels_dict = self.channels
+                del channels_dict[user.id]
+                self.channels = channels_dict
+        
+                self.dump_channels()
+            
                 list.remove(user.id)
                 users_dict[ctx.message.guild.id] = list
                 self.users = users_dict
@@ -231,7 +239,7 @@ class Monitor(Cog):
                 channels_dict[before.author.id] = None
             
             if channels_dict[before.author.id] is not None:
-                em = discord.Embed(title="Message deleted", color=discord.Color.blue())
+                em = discord.Embed(title="Message edited", color=discord.Color.blue())
                 em.set_author(name=before.author, icon_url=before.author.avatar_url)
                 em.add_field(name="**Before**", value=before.content)
                 em.add_field(name="**After**", value=after.content)
