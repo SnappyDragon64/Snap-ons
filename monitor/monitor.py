@@ -45,36 +45,21 @@ class Monitor(Cog):
         """Monitor users."""
         if ctx.invoked_subcommand is None:
             pass
-
+            
     @monitor.command()
-    async def set(self, ctx: commands.Context, channel: discord.TextChannel = None):
-        """Enter channel to log data to."""
-        if channel is not None:
+    async def add(self, ctx: commands.Context, user: discord.User = None, channel: discord.TextChannel = None):
+        """Add a user to the watchlist."""
+        if user is not None && channel is not None:
+            if self.users is None:
+                self.load_users()
             if self.channels is None:
                 self.load_channels()
             
             channels_dict = self.channels
-            channels_dict[ctx.message.guild.id] = channel.id
+            channels_dict[user.id] = channel.id
             self.channels = channels_dict
         
             self.dump_channels()
-        
-            ti = "Channel successfully set."
-            desc = "Log data will now be sent to #{}.".format(channel.name)
-            em = discord.Embed(title=ti, description=desc, color=discord.Color.green())
-            await ctx.send(embed=em)
-        else:
-            ti = "No channel entered."
-            desc = "Please mention a channel to send log data to."
-            em = discord.Embed(title=ti, description=desc, color=discord.Color.red())
-            await ctx.send(embed=em)
-            
-    @monitor.command()
-    async def add(self, ctx: commands.Context, user: discord.User = None):
-        """Add a user to the watchlist."""
-        if user is not None:
-            if self.users is None:
-                self.load_users()
             
             users_dict = self.users
             try:
@@ -95,12 +80,12 @@ class Monitor(Cog):
                 self.dump_users()
         
                 ti = "User successfully set."
-                desc = "**{}** will now be monitored.".format(user.name)
+                desc = "**{0}** will now be monitored. Logs will be sent to #{1}.".format(user.name, channel.name)
                 em = discord.Embed(title=ti, description=desc, color=discord.Color.green())
                 await ctx.send(embed=em)
         else:
-            ti = "No user entered."
-            desc = "Please mention a user to monitor."
+            ti = "Invalid operands entered."
+            desc = "Please enter the user and channel correctly."
             em = discord.Embed(title=ti, description=desc, color=discord.Color.red())
             await ctx.send(embed=em)
             
@@ -183,15 +168,15 @@ class Monitor(Cog):
             
             channels_dict = self.channels
             try:
-                null_list = channels_dict[message.guild.id]
+                null_list = channels_dict[message.author.id]
             except:
-                channels_dict[message.guild.id] = None
+                channels_dict[message.author.id] = None
             
-            if channels_dict[message.guild.id] is not None:
+            if channels_dict[message.author.id] is not None:
                 em = discord.Embed(title="Message sent", description=message.content, color=discord.Color.green())
                 em.set_author(name=message.author, icon_url=message.author.avatar_url)
                 em.set_footer(text="Original message sent by user with ID {0} in #{1} at time {2}.".format(message.author.id, message.channel, message.created_at))
-                await message.guild.get_channel(channels_dict[message.guild.id]).send(embed=em)
+                await message.guild.get_channel(channels_dict[message.author.id]).send(embed=em)
                 
     @commands.Cog.listener()
     async def on_message_delete(self, message):
@@ -212,15 +197,15 @@ class Monitor(Cog):
             
             channels_dict = self.channels
             try:
-                null_list = channels_dict[message.guild.id]
+                null_list = channels_dict[message.author.id]
             except:
-                channels_dict[message.guild.id] = None
+                channels_dict[message.author.id] = None
             
-            if channels_dict[message.guild.id] is not None:
+            if channels_dict[message.author.id] is not None:
                 em = discord.Embed(title="Message deleted", description=message.content, color=discord.Color.red())
                 em.set_author(name=message.author, icon_url=message.author.avatar_url)
                 em.set_footer(text="Original message sent by user with ID {0} in #{1} at time {2}.".format(message.author.id, message.channel, message.created_at))
-                await message.guild.get_channel(channels_dict[message.guild.id]).send(embed=em)
+                await message.guild.get_channel(channels_dict[message.author.id]).send(embed=em)
                 
     @commands.Cog.listener()
     async def on_message_edit(self, before, after):
@@ -241,14 +226,14 @@ class Monitor(Cog):
             
             channels_dict = self.channels
             try:
-                null_list = channels_dict[before.guild.id]
+                null_list = channels_dict[before.author.id]
             except:
-                channels_dict[before.guild.id] = None
+                channels_dict[before.author.id] = None
             
-            if channels_dict[before.guild.id] is not None:
+            if channels_dict[before.author.id] is not None:
                 em = discord.Embed(title="Message deleted", color=discord.Color.blue())
                 em.set_author(name=before.author, icon_url=before.author.avatar_url)
                 em.add_field(name="**Before**", value=before.content)
                 em.add_field(name="**After**", value=after.content)
                 em.set_footer(text="Original message sent by user with ID {0} in #{1} at time {2}.".format(before.author.id, before.channel, before.created_at))
-                await before.guild.get_channel(channels_dict[before.guild.id]).send(embed=em)
+                await before.guild.get_channel(channels_dict[before.author.id]).send(embed=em)
