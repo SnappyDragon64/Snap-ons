@@ -49,7 +49,7 @@ class Monitor(Cog):
     @monitor.command()
     async def add(self, ctx: commands.Context, user: discord.User = None, channel: discord.TextChannel = None):
         """Add a user to the watchlist."""
-        if user is not None && channel is not None:
+        if user is not None and channel is not None:
             if self.users is None:
                 self.load_users()
             if self.channels is None:
